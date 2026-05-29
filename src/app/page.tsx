@@ -1,4 +1,5 @@
 import Hero from "@/components/home/Hero";
+import PartnersStrip from "@/components/home/PartnersStrip";
 import AboutOverview from "@/components/home/AboutOverview";
 import ServicesGrid from "@/components/home/ServicesGrid";
 import ResearchApproach from "@/components/home/ResearchApproach";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <PartnersStrip />
       <AboutOverview />
       <ServicesGrid />
       <ResearchApproach />
