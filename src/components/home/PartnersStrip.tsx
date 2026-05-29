@@ -4,131 +4,220 @@ import Image from "next/image";
 import AnimateIn, { AnimateInGroup, AnimateInItem } from "@/components/ui/AnimateIn";
 import Container from "@/components/ui/Container";
 
-// ─── Partner logos ────────────────────────────────────────────────────────────
+// ─── Partners ─────────────────────────────────────────────────────────────────
 
 const partners = [
   { src: "/malana.png", alt: "Malana Research Consult International Ltd.", width: 180, height: 50 },
   { src: "/feasts.png", alt: "Feasts", width: 56, height: 56 },
 ];
 
-// ─── Map projection ───────────────────────────────────────────────────────────
-// ViewBox 0 0 500 620
-// x = (lon − 28) × 20.833     lon range 28°E → 52°E
-// y = (18 − lat) × 20         lat range 18°N → −12°S
+// ─── Projection ───────────────────────────────────────────────────────────────
+// ViewBox: 0 0 500 620
+// x = (lon − 28) × 20.833        lon range 28°E → 52°E
+// y = (18 − lat) × 20            lat range 18°N → −12°S (y increases downward)
 
 const W = 500;
 const H = 620;
 const DOT_GAP = 11;
 
-// East Africa outer boundary (clockwise from NW Eritrea)
+// Outer East-Africa boundary (clockwise, NW Eritrea → Horn → Tanzania → Uganda)
 const POLYGON: [number, number][] = [
-  [177, 2],   [219, 0],   [260, 34],  [323, 130], [350, 118],
-  [485, 122], [490, 145], [479, 200], [458, 252], [438, 280],
-  [370, 315], [296, 385], [252, 416], [244, 440], [238, 466],
-  [234, 496], [250, 570], [240, 590], [168, 608], [118, 578],
-  [60,  556], [28,  530], [22,  478], [25,  440], [20,  400],
-  [44,  338], [50,  296], [2,   278], [0,   162], [105,  90],
-  [144,  72], [188,  60], [177,   2],
+  [177,  2], [219,  0], [260, 34], [302,110], [313,130],
+  [325,132], [350,118], [485,122], [490,145], [479,200],
+  [458,252], [438,280], [361,318], [292,370], [281,394],
+  [262,416], [244,440], [240,454], [230,480], [234,496],
+  [250,570], [240,590], [168,608], [118,578], [60, 556],
+  [28, 530], [22, 478], [25, 440], [20, 400], [44, 338],
+  [50, 296], [2,  278], [0,  162], [105, 90], [144, 72],
+  [188, 60], [177,  2],
 ];
 
-// ─── Internal country borders (approximate polylines) ─────────────────────────
-// Each entry is a sequence of [x,y] points tracing a shared border segment.
+// ─── Internal country borders (geographically corrected polylines) ─────────────
+//
+// Coordinate reminders:
+//   Eritrea/Ethiopia border  → lat ~14.9–15.3°N  (y ≈ 54–62)
+//   Ethiopia/Somalia (Ogaden)→ curves east to ~lon 44–45°E through the middle
+//   Kenya/Uganda border      → roughly lon 34–35°E, lat 4.2°N → −1°S
+//   Kenya/Tanzania border    → diagonal from Lake Victoria (−1°S, 33.9°E)
+//                              to Indian Ocean coast (~−4.7°S, 39.5°E)
+//   Uganda/Tanzania border   → along Lake Victoria S shore, ~lat −1°S
+//   Rwanda/Uganda/Tanzania   → tripoint near (30.5°E, −1.3°S)
 
-const BORDER_LINES: { key: string; pts: [number, number][] }[] = [
-  // Eritrea / Ethiopia southern border (~lat 15°N, W→E then NE to Red Sea coast)
-  { key: "eri-eth",  pts: [[0,60],[90,68],[144,72],[188,60],[220,52],[260,34]] },
+const BORDERS: { key: string; pts: [number, number][] }[] = [
+  // ── Eritrea / Ethiopia ──────────────────────────────────────────────────────
+  // Runs E-W from Sudan-border at ~(36.5°E,14.9°N) to Djibouti at (42.5°E,12.5°N)
+  { key: "eri-eth", pts: [
+    [177, 62],  // 36.5°E 14.9°N — SW Eritrea / Ethiopia
+    [208, 62],  // 38°E   14.9°N
+    [240, 54],  // 39.5°E 15.3°N — dips slightly north
+    [260, 60],  // 40.5°E 15.0°N
+    [281, 72],  // 41.5°E 14.4°N
+    [292, 90],  // 42°E   13.5°N
+    [302,110],  // 42.5°E 12.5°N — Eritrea/Djibouti/Ethiopia corner
+  ]},
 
-  // Eritrea / Djibouti border (~43°E going SE to Gulf of Aden)
-  { key: "eri-dji",  pts: [[260,34],[290,80],[302,110]] },
+  // ── Eritrea / Djibouti ──────────────────────────────────────────────────────
+  { key: "eri-dji", pts: [
+    [302,110],  // 42.5°E 12.5°N
+    [313,130],  // 43°E   11.5°N — Djibouti/Somalia border begins
+  ]},
 
-  // Ethiopia / Djibouti border (short, SE corner of Ethiopia)
-  { key: "eth-dji",  pts: [[302,110],[313,134]] },
+  // ── Ethiopia / Somalia  (Ogaden — curves east in the middle) ────────────────
+  { key: "eth-som", pts: [
+    [313,130],  // 43°E   11.5°N — Djibouti tripoint
+    [330,152],  // 43.8°E 10.4°N — curves NE into Ogaden
+    [350,182],  // 44.9°E  9.0°N — easternmost bulge
+    [345,220],  // 44.7°E  7.0°N
+    [330,250],  // 43.8°E  5.6°N
+    [310,268],  // 42.8°E  4.9°N
+    [290,276],  // 41.9°E  4.2°N — Kenya/Ethiopia/Somalia tripoint
+  ]},
 
-  // Ethiopia / Somalia border (NE diagonal across Ogaden)
-  { key: "eth-som",  pts: [[313,134],[338,170],[355,218],[342,268],[290,278]] },
+  // ── Somalia / Kenya  (nearly meridional, lon ~41.5°E) ───────────────────────
+  { key: "som-ken", pts: [
+    [290,276],  // 41.9°E  4.2°N
+    [288,310],  // 41.8°E  2.5°N
+    [285,340],  // 41.7°E  1.0°N
+    [283,370],  // 41.6°E −0.5°S
+    [281,394],  // 41.5°E −1.7°S — coast border at Kiunga/Ras Kamboni
+  ]},
 
-  // Somalia / Kenya border (runs S from Mandera to Kiunga coast)
-  { key: "som-ken",  pts: [[290,278],[285,332],[283,392]] },
+  // ── Ethiopia / Kenya  (roughly lat 4–4.5°N, E-W) ───────────────────────────
+  { key: "eth-ken", pts: [
+    [146,276],  // 35°E   4.2°N — Kenya/Uganda/SS corner
+    [188,274],  // 37°E   4.3°N
+    [229,274],  // 39°E   4.3°N
+    [260,274],  // 40.5°E 4.3°N
+    [290,276],  // 41.9°E 4.2°N — Somalia tripoint
+  ]},
 
-  // Ethiopia / Kenya border (~lat 4.5°N, runs W→E)
-  { key: "eth-ken",  pts: [[146,264],[190,260],[242,260],[290,278]] },
+  // ── Ethiopia / South Sudan  (roughly lon 35°E, N→S) ─────────────────────────
+  { key: "eth-ss", pts: [
+    [0,   62],  // western map edge ~lat 14.9°N (Sudan/Ethiopia/SS area)
+    [80,  98],  // 31.8°E 13.1°N
+    [125, 80],  // 34°E   14°N   — Ethiopia/Sudan border jogs east
+    [146,120],  // 35°E   12°N
+    [146,200],  // 35°E    8°N
+    [146,276],  // 35°E    4.2°N — Kenya tripoint
+  ]},
 
-  // Ethiopia / South Sudan border (~lon 35°E, runs N→S)
-  { key: "eth-ss",   pts: [[0,60],[80,98],[125,80],[146,120],[146,200],[146,264]] },
+  // ── South Sudan / Uganda  (roughly lat 3.5–4°N, E-W) ───────────────────────
+  { key: "ss-uga", pts: [
+    [0,  270],  // 28°E   4.5°N — western map edge
+    [42, 290],  // 30°E   3.5°N
+    [80, 284],  // 31.8°E 3.8°N
+    [120,280],  // 33.8°E 4.0°N
+    [146,276],  // 35°E   4.2°N — Kenya/Ethiopia corner
+  ]},
 
-  // South Sudan / Uganda & Kenya border (lat ~3.5–4°N)
-  { key: "ss-uga",   pts: [[0,270],[52,284],[102,278],[133,272],[146,264]] },
+  // ── Kenya / Uganda  (lon ~34–35°E, N→S) ─────────────────────────────────────
+  { key: "ken-uga", pts: [
+    [146,276],  // 35°E   4.2°N
+    [143,295],  // 34.9°E 3.3°N
+    [138,320],  // 34.7°E 2.0°N
+    [133,345],  // 34.5°E 0.8°N
+    [127,365],  // 34.2°E −0.3°S
+    [123,380],  // 33.9°E −1.0°S — Lake Victoria / Kenya/Uganda/Tanzania tripoint
+  ]},
 
-  // Kenya / Uganda border (lon ~34°E, runs N→S)
-  { key: "ken-uga",  pts: [[133,272],[130,310],[128,354],[126,378]] },
+  // ── Kenya / Tanzania  (diagonal: Lake Victoria SW → Indian Ocean SE) ─────────
+  // Coast end is at Lunga Lunga ~(39.5°E, −4.7°S), NOT at −1°S
+  { key: "ken-tan", pts: [
+    [123,380],  // 33.9°E −1.0°S — Lake Victoria tripoint
+    [135,390],  // 34.5°E −1.5°S
+    [158,406],  // 35.6°E −2.3°S
+    [180,420],  // 36.6°E −3.0°S — Namanga area
+    [204,436],  // 37.8°E −3.8°S — Taveta/Kilimanjaro area
+    [224,447],  // 38.8°E −4.3°S
+    [240,454],  // 39.5°E −4.7°S — Lunga Lunga / Indian Ocean coast
+  ]},
 
-  // Kenya / Tanzania & Uganda / Tanzania border (lat ~−1°S)
-  { key: "ken-tan",  pts: [[56,380],[92,378],[126,378],[183,378],[252,416]] },
+  // ── Uganda / Tanzania  (along Lake Victoria S shore, ~lat −1°S) ─────────────
+  { key: "uga-tan", pts: [
+    [123,380],  // 33.9°E −1.0°S — Kenya tripoint
+    [102,382],  // 32.9°E −1.1°S
+    [73, 382],  // 31.5°E −1.1°S
+    [52, 386],  // 30.5°E −1.3°S — Rwanda/Uganda/Tanzania tripoint
+  ]},
 
-  // Uganda / Rwanda junction
-  { key: "uga-rwa",  pts: [[56,380],[42,399]] },
+  // ── Uganda / Rwanda ──────────────────────────────────────────────────────────
+  { key: "uga-rwa", pts: [
+    [52, 386],  // 30.5°E −1.3°S — Tanzania tripoint
+    [38, 388],  // 29.8°E −1.4°S
+    [33, 388],  // 29.6°E −1.4°S — DRC tripoint
+  ]},
 
-  // Rwanda / Burundi border
-  { key: "rwa-bur",  pts: [[42,399],[41,429]] },
+  // ── Rwanda / Tanzania  (runs S along E Rwanda, lon ~30.5–30.8°E) ────────────
+  { key: "rwa-tan", pts: [
+    [52, 386],  // 30.5°E −1.3°S — Uganda tripoint
+    [54, 402],  // 30.6°E −2.1°S
+    [58, 420],  // 30.8°E −3.0°S
+    [58, 436],  // 30.8°E −3.8°S
+    [56, 446],  // 30.7°E −4.3°S — Burundi tripoint
+  ]},
 
-  // Rwanda / Tanzania eastern border (runs S)
-  { key: "rwa-tan",  pts: [[42,399],[50,420],[54,450]] },
+  // ── Rwanda / Burundi ─────────────────────────────────────────────────────────
+  { key: "rwa-bur", pts: [
+    [56, 446],  // 30.7°E −4.3°S — Tanzania tripoint
+    [42, 442],  // 30.0°E −4.1°S
+    [25, 440],  // 29.2°E −4.0°S — DRC tripoint
+  ]},
 
-  // Burundi / Tanzania eastern border (runs S to Lake Tanganyika area)
-  { key: "bur-tan",  pts: [[41,429],[54,450],[52,500],[44,530]] },
+  // ── Burundi / Tanzania  (runs S, lon ~30.7°E → Lake Tanganyika) ─────────────
+  { key: "bur-tan", pts: [
+    [56, 446],  // 30.7°E −4.3°S — Rwanda tripoint
+    [58, 462],  // 30.8°E −5.1°S
+    [55, 490],  // 30.6°E −6.5°S
+    [50, 516],  // 30.3°E −7.8°S
+    [44, 530],  // 30.0°E −8.5°S — Lake Tanganyika S end
+  ]},
 ];
 
-// Country name label positions (centroid approximations)
-const COUNTRY_LABELS: { name: string; x: number; y: number }[] = [
-  { name: "ERITREA",   x: 208, y: 36  },
-  { name: "DJIBOUTI",  x: 338, y: 154 },
-  { name: "ETHIOPIA",  x: 148, y: 178 },
-  { name: "S. SUDAN",  x: 50,  y: 228 },
-  { name: "SOMALIA",   x: 408, y: 232 },
-  { name: "UGANDA",    x: 74,  y: 345 },
-  { name: "KENYA",     x: 190, y: 344 },
-  { name: "RWANDA",    x: 26,  y: 410 },
-  { name: "BURUNDI",   x: 24,  y: 446 },
-  { name: "TANZANIA",  x: 148, y: 528 },
+// ─── Country label centroids ──────────────────────────────────────────────────
+const LABELS: { name: string; x: number; y: number }[] = [
+  { name: "ERITREA",    x: 216, y: 36  },
+  { name: "DJIBOUTI",   x: 336, y: 152 },
+  { name: "ETHIOPIA",   x: 148, y: 186 },
+  { name: "S. SUDAN",   x: 50,  y: 228 },
+  { name: "SOMALIA",    x: 410, y: 228 },
+  { name: "UGANDA",     x: 74,  y: 348 },
+  { name: "KENYA",      x: 196, y: 356 },
+  { name: "RWANDA",     x: 28,  y: 416 },
+  { name: "BURUNDI",    x: 24,  y: 452 },
+  { name: "TANZANIA",   x: 152, y: 528 },
 ];
 
-// Capital amber dots
+// ─── Capital amber dots ───────────────────────────────────────────────────────
 const CAPITALS = [
-  { country: "Kenya",       cx: 183, cy: 386 },
-  { country: "Uganda",      cx:  95, cy: 353 },
-  { country: "Tanzania",    cx: 161, cy: 483 },
-  { country: "Ethiopia",    cx: 224, cy: 179 },
-  { country: "Rwanda",      cx:  43, cy: 399 },
-  { country: "Burundi",     cx:  41, cy: 429 },
-  { country: "Somalia",     cx: 360, cy: 319 },
-  { country: "South Sudan", cx:  74, cy: 263 },
-  { country: "Eritrea",     cx: 228, cy:  53 },
-  { country: "Djibouti",    cx: 316, cy: 128 },
+  { country: "Kenya",       cx: 183, cy: 356 },
+  { country: "Uganda",      cx:  76, cy: 348 },
+  { country: "Tanzania",    cx: 152, cy: 500 },
+  { country: "Ethiopia",    cx: 150, cy: 192 },
+  { country: "Rwanda",      cx:  40, cy: 415 },
+  { country: "Burundi",     cx:  38, cy: 448 },
+  { country: "Somalia",     cx: 380, cy: 308 },
+  { country: "South Sudan", cx:  54, cy: 250 },
+  { country: "Eritrea",     cx: 222, cy:  44 },
+  { country: "Djibouti",    cx: 322, cy: 144 },
 ];
 
-// ─── Point-in-polygon (ray casting) ──────────────────────────────────────────
-
+// ─── Point-in-polygon ─────────────────────────────────────────────────────────
 function inside(px: number, py: number, poly: [number, number][]): boolean {
   let hit = false;
   const n = poly.length;
   for (let i = 0, j = n - 1; i < n; j = i++) {
-    const [xi, yi] = poly[i];
-    const [xj, yj] = poly[j];
+    const [xi, yi] = poly[i], [xj, yj] = poly[j];
     if ((yi > py) !== (yj > py) && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) hit = !hit;
   }
   return hit;
 }
 
-// Pre-compute dot grid
 const DOTS: { cx: number; cy: number }[] = [];
-for (let y = DOT_GAP / 2; y < H; y += DOT_GAP) {
-  for (let x = DOT_GAP / 2; x < W; x += DOT_GAP) {
+for (let y = DOT_GAP / 2; y < H; y += DOT_GAP)
+  for (let x = DOT_GAP / 2; x < W; x += DOT_GAP)
     if (inside(x, y, POLYGON)) DOTS.push({ cx: x, cy: y });
-  }
-}
 
-// ─── SVG Map ──────────────────────────────────────────────────────────────────
-
+// ─── SVG ──────────────────────────────────────────────────────────────────────
 function EastAfricaMap() {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full" aria-hidden="true">
@@ -146,56 +235,55 @@ function EastAfricaMap() {
         </filter>
       </defs>
 
-      {/* Background dot field clipped to East Africa shape */}
+      {/* Background dot field */}
       <g mask="url(#ea-mask)">
         {DOTS.map(({ cx, cy }, i) => (
-          <circle key={i} cx={cx} cy={cy} r="1.3" fill="white" opacity="0.2" />
+          <circle key={i} cx={cx} cy={cy} r="1.3" fill="white" opacity="0.18" />
         ))}
       </g>
 
-      {/* Outer boundary — very faint */}
+      {/* Outer boundary */}
       <polygon
         points={POLYGON.map(([x, y]) => `${x},${y}`).join(" ")}
         fill="none" stroke="white" strokeWidth="0.5" opacity="0.1"
       />
 
       {/* Country border lines */}
-      {BORDER_LINES.map(({ key, pts }) => (
+      {BORDERS.map(({ key, pts }) => (
         <polyline
           key={key}
           points={pts.map(([x, y]) => `${x},${y}`).join(" ")}
           fill="none"
           stroke="white"
-          strokeWidth="0.9"
-          opacity="0.28"
+          strokeWidth="1"
+          opacity="0.32"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       ))}
 
       {/* Country name labels */}
-      {COUNTRY_LABELS.map((lbl) => (
+      {LABELS.map((l) => (
         <text
-          key={lbl.name}
-          x={lbl.x}
-          y={lbl.y}
+          key={l.name}
+          x={l.x} y={l.y}
           textAnchor="middle"
           fontSize="7"
-          fontFamily="system-ui, sans-serif"
+          fontFamily="system-ui,sans-serif"
           letterSpacing="1.2"
           fill="white"
-          opacity="0.35"
+          opacity="0.38"
           style={{ userSelect: "none" }}
         >
-          {lbl.name}
+          {l.name}
         </text>
       ))}
 
       {/* Amber capital dots */}
       {CAPITALS.map((d) => (
         <g key={d.country} filter="url(#dot-glow)">
-          <circle cx={d.cx} cy={d.cy} r="9"  fill="none" stroke="#c4763a" strokeWidth="0.7" opacity="0.3" />
-          <circle cx={d.cx} cy={d.cy} r="5"  fill="none" stroke="#c4763a" strokeWidth="0.7" opacity="0.5" />
+          <circle cx={d.cx} cy={d.cy} r="9"  fill="none" stroke="#c4763a" strokeWidth="0.7" opacity="0.28" />
+          <circle cx={d.cx} cy={d.cy} r="5"  fill="none" stroke="#c4763a" strokeWidth="0.7" opacity="0.5"  />
           <circle cx={d.cx} cy={d.cy} r="3"  fill="#c4763a" opacity="0.95" />
           <circle cx={d.cx - 0.8} cy={d.cy - 0.8} r="1" fill="white" opacity="0.45" />
         </g>
@@ -205,11 +293,9 @@ function EastAfricaMap() {
 }
 
 // ─── Section ──────────────────────────────────────────────────────────────────
-
 export default function PartnersStrip() {
   return (
     <section className="relative bg-[var(--color-forest-deep)] overflow-hidden">
-
       {/* Map background */}
       <div className="absolute inset-0 flex items-center justify-center py-8">
         <div className="w-full max-w-sm lg:max-w-md xl:max-w-lg h-full" style={{ maxHeight: "110%" }}>
@@ -224,7 +310,6 @@ export default function PartnersStrip() {
       />
 
       <Container className="relative z-10 py-20 lg:py-28">
-
         {/* Label */}
         <AnimateIn>
           <div className="flex items-center justify-center gap-4 mb-12">
@@ -236,19 +321,13 @@ export default function PartnersStrip() {
           </div>
         </AnimateIn>
 
-        {/* Partner logos */}
-        <AnimateInGroup
-          className="flex items-center justify-center flex-wrap gap-12 lg:gap-20 mb-14"
-          stagger={0.12}
-        >
+        {/* Logos */}
+        <AnimateInGroup className="flex items-center justify-center flex-wrap gap-12 lg:gap-20 mb-14" stagger={0.12}>
           {partners.map((p) => (
             <AnimateInItem key={p.alt}>
               <div className="opacity-60 hover:opacity-95 transition-opacity duration-300">
-                <Image
-                  src={p.src} alt={p.alt}
-                  width={p.width} height={p.height}
-                  className="h-10 w-auto object-contain brightness-0 invert"
-                />
+                <Image src={p.src} alt={p.alt} width={p.width} height={p.height}
+                  className="h-10 w-auto object-contain brightness-0 invert" />
               </div>
             </AnimateInItem>
           ))}
