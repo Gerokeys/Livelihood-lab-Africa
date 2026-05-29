@@ -83,6 +83,32 @@ const CAPITALS = [
   { country: "Djibouti",    city: "Djibouti",    cx: 316, cy: 128 },
 ];
 
+// Shared-border connections between country capitals
+const CONNECTIONS: [string, string][] = [
+  ["Kenya",       "Uganda"],
+  ["Kenya",       "Tanzania"],
+  ["Kenya",       "Ethiopia"],
+  ["Kenya",       "Somalia"],
+  ["Kenya",       "South Sudan"],
+  ["Uganda",      "Tanzania"],
+  ["Uganda",      "Rwanda"],
+  ["Uganda",      "South Sudan"],
+  ["Tanzania",    "Rwanda"],
+  ["Tanzania",    "Burundi"],
+  ["Ethiopia",    "Somalia"],
+  ["Ethiopia",    "South Sudan"],
+  ["Ethiopia",    "Eritrea"],
+  ["Ethiopia",    "Djibouti"],
+  ["Eritrea",     "Djibouti"],
+  ["Somalia",     "Djibouti"],
+  ["Rwanda",      "Burundi"],
+];
+
+// Build a lookup map for quick coordinate access
+const CAP_MAP = Object.fromEntries(
+  CAPITALS.map((c) => [c.country, { cx: c.cx, cy: c.cy }])
+);
+
 // ─── Point-in-polygon (ray casting) ──────────────────────────────────────────
 
 function inside(px: number, py: number, poly: [number, number][]): boolean {
@@ -150,6 +176,25 @@ function EastAfricaMap() {
         strokeWidth="0.5"
         opacity="0.1"
       />
+
+      {/* ── Border connection lines between neighbouring capitals ── */}
+      <g opacity="0.35">
+        {CONNECTIONS.map(([a, b]) => {
+          const from = CAP_MAP[a];
+          const to   = CAP_MAP[b];
+          if (!from || !to) return null;
+          return (
+            <line
+              key={`${a}-${b}`}
+              x1={from.cx} y1={from.cy}
+              x2={to.cx}   y2={to.cy}
+              stroke="#c4763a"
+              strokeWidth="0.8"
+              strokeDasharray="3 4"
+            />
+          );
+        })}
+      </g>
 
       {/* ── Amber capital dots ── */}
       {CAPITALS.map((d) => (
