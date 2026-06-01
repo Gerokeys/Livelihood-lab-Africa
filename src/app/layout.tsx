@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     "evidence",
     "policy",
   ],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_GB",

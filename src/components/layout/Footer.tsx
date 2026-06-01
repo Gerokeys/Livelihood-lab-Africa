@@ -43,7 +43,7 @@ export default function Footer() {
                 alt="Livelihood Lab Africa"
                 width={180}
                 height={58}
-                className="h-12 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
             </Link>
 

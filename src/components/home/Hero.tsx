@@ -5,15 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 
-const stats = [
-  { value: "Est. 2023", label: "Incorporated in Kenya" },
-  { value: "10+", label: "Service areas" },
-  { value: "Africa-wide", label: "Geographic reach" },
-];
-
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
+    <section className="relative min-h-[88vh] flex flex-col overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -41,30 +35,19 @@ export default function Hero() {
         />
       </div>
 
-      <Container className="flex-1 flex flex-col justify-end pb-16 lg:pb-20 pt-40 lg:pt-48 relative z-10">
-        {/* Top label */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex items-center gap-3 mb-10 lg:mb-14"
-        >
-          <span className="text-[10px] tracking-[0.16em] uppercase text-[var(--color-sage)]">
-            Livelihood Lab Africa
-          </span>
-          <div className="w-8 h-px bg-[var(--color-sage)]" />
-          <span className="text-[10px] tracking-[0.16em] uppercase text-[var(--color-sage)]">
-            Nairobi, Kenya
-          </span>
-        </motion.div>
+      {/* Bottom fade — blends into the map section below */}
+      <div className="absolute bottom-0 inset-x-0 h-40 pointer-events-none z-10"
+        style={{ background: "linear-gradient(to bottom, transparent, var(--color-forest-deep))" }}
+      />
 
+      <Container className="flex-1 flex flex-col items-center justify-center pt-24 pb-20 relative z-20 text-center">
         {/* Main headline */}
-        <div className="max-w-5xl">
+        <div className="max-w-5xl mx-auto">
           <motion.h1
             className="text-display font-serif text-[var(--color-cream)] mb-8"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             Turning Evidence
             <br />
@@ -74,10 +57,10 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            className="text-lead text-[var(--color-sage-light)] max-w-xl mb-12"
+            className="text-lead text-[var(--color-sage-light)] max-w-xl mx-auto mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             Research, strategy, learning, and institutional support for
             sustainable development across Africa.
@@ -86,8 +69,8 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.75 }}
-            className="flex flex-wrap items-center gap-6"
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-wrap items-center justify-center gap-6"
           >
             <Link
               href="/research"
@@ -103,25 +86,6 @@ export default function Hero() {
             </Link>
           </motion.div>
         </div>
-
-        {/* Stats bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-20 pt-8 border-t border-[var(--color-earth)] grid grid-cols-3 sm:flex sm:items-center gap-8 sm:gap-16"
-        >
-          {stats.map(({ value, label }) => (
-            <div key={label}>
-              <div className="font-serif text-xl text-[var(--color-cream)] mb-1">
-                {value}
-              </div>
-              <div className="text-[11px] tracking-wide text-[var(--color-sage)] uppercase">
-                {label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
       </Container>
 
       {/* Scroll indicator */}
@@ -129,7 +93,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4, duration: 0.6 }}
-        className="absolute bottom-8 right-8 lg:right-12 flex flex-col items-center gap-2 z-10"
+        className="absolute bottom-8 right-8 lg:right-12 flex flex-col items-center gap-2 z-20"
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}

@@ -8,8 +8,9 @@ import Container from "@/components/ui/Container";
 // ─── Partners ─────────────────────────────────────────────────────────────────
 
 const partners = [
-  { src: "/malana.png", alt: "Malana Research Consult International Ltd.", width: 180, height: 50 },
-  { src: "/feasts.png", alt: "Feasts", width: 56, height: 56 },
+  { src: "/malana.png",           alt: "Malana Research Consult International Ltd.", width: 220, height: 70, label: null,            isPhoto: false },
+  { src: "/feasts.png",           alt: "Feasts",                                     width: 80,  height: 80, label: "FEAST",          isPhoto: false },
+  { src: "/ETC consulting.jpeg",  alt: "ETC Consulting",                             width: 180, height: 70, label: "ETC Consulting",  isPhoto: true  },
 ];
 
 // ─── Geographic data ──────────────────────────────────────────────────────────
@@ -112,26 +113,29 @@ function EastAfricaMap() {
 export default function PartnersStrip() {
   return (
     <section className="relative bg-[var(--color-forest-deep)] overflow-hidden">
-      {/* Map centred in the background */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full max-w-sm lg:max-w-md xl:max-w-lg opacity-90" style={{ maxHeight: "110%", height: "100%" }}>
+      {/* Map — shifted up, blurred so it reads as decorative texture */}
+      <div className="absolute inset-0 flex items-start justify-center" style={{ top: "-10%" }}>
+        <div
+          className="w-full max-w-md lg:max-w-lg xl:max-w-xl"
+          style={{ height: "120%", opacity: 1 }}
+        >
           <EastAfricaMap />
         </div>
       </div>
 
-      {/* Radial vignette */}
+      {/* Stronger vignette — keeps text legible over the map */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 58% at 50% 50%, transparent 22%, var(--color-forest-deep) 86%)",
+            "radial-gradient(ellipse 75% 60% at 50% 45%, rgba(10,28,18,0.45) 0%, var(--color-forest-deep) 72%)",
         }}
       />
 
-      <Container className="relative z-10 py-20 lg:py-28">
+      <Container className="relative z-10 pt-10 pb-24 lg:pb-32">
         {/* Label */}
         <AnimateIn>
-          <div className="flex items-center justify-center gap-4 mb-12">
+          <div className="flex items-center justify-center gap-4 mb-10">
             <div className="h-px w-10 bg-[var(--color-earth)]" />
             <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--color-sage)]">
               Partners &amp; Collaborators — Eastern Africa
@@ -142,49 +146,51 @@ export default function PartnersStrip() {
 
         {/* Partner logos */}
         <AnimateInGroup
-          className="flex items-center justify-center flex-wrap gap-12 lg:gap-20 mb-14"
+          className="flex items-center justify-center flex-wrap gap-14 lg:gap-24 mb-14"
           stagger={0.12}
         >
           {partners.map((p) => (
             <AnimateInItem key={p.alt}>
-              <div className="opacity-60 hover:opacity-95 transition-opacity duration-300">
+              <div className="group flex flex-col items-center gap-2.5 opacity-60 hover:opacity-100 transition-all duration-300">
                 <Image
                   src={p.src} alt={p.alt}
                   width={p.width} height={p.height}
-                  className="h-10 w-auto object-contain brightness-0 invert"
+                  className={[
+                    "h-14 lg:h-16 w-auto object-contain transition-all duration-300",
+                    p.isPhoto
+                      ? "rounded opacity-90"
+                      : "brightness-0 invert group-hover:brightness-100 group-hover:invert-0",
+                  ].join(" ")}
                 />
+                {p.label && (
+                  <span className="text-[10px] tracking-[0.18em] uppercase text-[var(--color-sage)] group-hover:text-[var(--color-cream)] transition-colors duration-300">
+                    {p.label}
+                  </span>
+                )}
               </div>
             </AnimateInItem>
-          ))}
-          {[1, 2, 3].map((n) => (
-            <div
-              key={n}
-              className="h-10 w-24 border border-dashed border-[var(--color-earth)] opacity-20 flex items-center justify-center"
-            >
-              <span className="text-[9px] tracking-widest uppercase text-[var(--color-sage)]">
-                Partner
-              </span>
-            </div>
           ))}
         </AnimateInGroup>
 
         {/* Statement */}
         <AnimateIn delay={0.2}>
-          <p className="font-serif text-xl lg:text-2xl text-[var(--color-cream)] leading-relaxed text-center max-w-2xl mx-auto mb-12">
+          <p className="font-serif text-xl lg:text-2xl text-[var(--color-cream)] leading-relaxed text-center max-w-2xl mx-auto mb-14">
             Connecting evidence-based expertise with the organisations driving
             inclusive development across Eastern Africa.
           </p>
         </AnimateIn>
 
-        {/* Country legend */}
+        {/* Stats row */}
         <AnimateIn delay={0.3}>
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5">
-            {CAPITALS.map((d) => (
-              <div key={d.country} className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[var(--color-amber)] shrink-0 opacity-90" />
-                <span className="text-[10px] tracking-wide text-[var(--color-sage-light)]">
-                  {d.country}
-                </span>
+          <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-24 pt-8 border-t border-[var(--color-earth)]/40">
+            {[
+              { value: "Est. 2023", label: "Incorporated in Kenya" },
+              { value: "10+", label: "Service areas" },
+              { value: "Africa-wide", label: "Geographic reach" },
+            ].map(({ value, label }) => (
+              <div key={label} className="text-center">
+                <div className="font-serif text-2xl lg:text-3xl text-[var(--color-cream)] mb-1">{value}</div>
+                <div className="text-[10px] tracking-widest uppercase text-[var(--color-sage)]">{label}</div>
               </div>
             ))}
           </div>

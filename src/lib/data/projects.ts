@@ -20,6 +20,8 @@ export const projects: Project[] = [
     ],
     services: ["MEAL", "Research & Evidence Generation", "Strategic Advisory"],
     featured: true,
+    image: "/western kenya facilitation.jpeg",
+    imageAlt: "Livelihood Lab Africa facilitators train smallholder farmers in Western Kenya on soil health, climate-smart agriculture, and sustainable crop management through practical field-based demonstrations.",
   },
   {
     id: "2",
@@ -40,6 +42,8 @@ export const projects: Project[] = [
     ],
     services: ["Systematic Reviews", "Strategic Consulting", "Training"],
     featured: true,
+    image: "/Nandi county.jpeg",
+    imageAlt: "In Nandi County, Livelihood Lab Africa empowers women farmers through hands-on coffee production training.",
   },
   {
     id: "3",
@@ -64,6 +68,8 @@ export const projects: Project[] = [
       "MEAL",
     ],
     featured: true,
+    image: "/Women empowerment.jpeg",
+    imageAlt: "Livelihood Lab Africa empowering women farmers with practical skills in soil sampling, soil fertility management, and sustainable land use.",
   },
   {
     id: "4",
@@ -88,5 +94,7 @@ export const projects: Project[] = [
       "Governance & Institutional Strengthening",
     ],
     featured: false,
+    image: "/Njoro greenhouse.jpeg",
+    imageAlt: "Inside a greenhouse in Njoro Subcounty, Nakuru County, Livelihood Lab Africa works with smallholder farmers to strengthen practical skills in cucumber farming.",
   },
 ];

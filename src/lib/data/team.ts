@@ -6,6 +6,7 @@ export const team: TeamMember[] = [
     name: "Shayne Gladys Khaemba",
     role: "Managing Director",
     initials: "SK",
+    photo: "/shayne portrait.png",
     bio: "Shayne leads the firm's strategic direction and oversees client engagement, institutional partnerships, and organisational performance. She brings extensive experience in development programme management, stakeholder coordination, and consulting practice leadership across Kenya and the wider East African region.",
     expertise: [
       "Strategic Leadership",

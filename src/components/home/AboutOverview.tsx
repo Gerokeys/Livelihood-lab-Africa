@@ -59,8 +59,8 @@ export default function AboutOverview() {
             <AnimateIn delay={0.15} className="mt-10 lg:hidden">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1531206715517-99ad22870ca7?auto=format&fit=crop&w=900&q=80"
-                  alt="Development professionals working in the field in Africa"
+                  src="/western kenya facilitation.jpeg"
+                  alt="Livelihood Lab Africa facilitators training smallholder farmers in Western Kenya"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -101,15 +101,15 @@ export default function AboutOverview() {
             <AnimateIn delay={0.35} className="mt-8 hidden lg:block">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1531206715517-99ad22870ca7?auto=format&fit=crop&w=900&q=80"
-                  alt="Development professionals engaged in fieldwork and community research"
+                  src="/western kenya facilitation.jpeg"
+                  alt="Livelihood Lab Africa field training and community engagement in Kenya"
                   fill
                   className="object-cover"
                   sizes="60vw"
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
                 <p className="absolute bottom-4 left-5 text-[10px] tracking-widest uppercase text-white/70">
-                  Field research · Kenya
+                  Training · Western Kenya
                 </p>
               </div>
             </AnimateIn>

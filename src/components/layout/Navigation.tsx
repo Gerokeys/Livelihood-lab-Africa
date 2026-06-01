@@ -62,7 +62,7 @@ export default function Navigation() {
                 alt="Livelihood Lab Africa"
                 width={160}
                 height={52}
-                className="h-10 w-auto object-contain"
+                className="h-14 w-auto object-contain"
                 priority
               />
             </Link>

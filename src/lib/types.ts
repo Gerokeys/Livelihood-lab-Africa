@@ -34,6 +34,7 @@ export interface Project {
   outcomes: string[];
   services: string[];
   featured: boolean;
+  image?: string;
   imageAlt?: string;
 }
 
@@ -44,6 +45,7 @@ export interface TeamMember {
   bio: string;
   expertise: string[];
   initials: string;
+  photo?: string;
 }
 
 export interface Service {

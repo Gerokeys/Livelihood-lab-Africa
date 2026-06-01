@@ -24,8 +24,8 @@ export default function ProjectsPage() {
       <section className="relative pt-36 pb-16 lg:pt-44 lg:pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=1920&q=80"
-            alt="Development work in Africa"
+            src="/western kenya facilitation.jpeg"
+            alt="Livelihood Lab Africa facilitators training smallholder farmers in Western Kenya"
             fill
             className="object-cover object-center"
             priority
@@ -57,13 +57,6 @@ export default function ProjectsPage() {
             <SectionLabel number="—" label="Featured Work" />
           </AnimateIn>
 
-          {(() => {
-            const featuredImages = [
-              "https://images.unsplash.com/photo-1593113616828-6f22bca04804?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
-              "https://images.unsplash.com/photo-1589156229687-496a31ad1a1a?auto=format&fit=crop&w=900&q=80",
-            ];
-            return (
           <AnimateInGroup className="flex flex-col gap-0" stagger={0.1}>
             {featured.map((project, i) => (
               <AnimateInItem key={project.id}>
@@ -79,8 +72,8 @@ export default function ProjectsPage() {
                       {/* Project image */}
                       <div className="relative aspect-[4/3] overflow-hidden mb-2">
                         <Image
-                          src={featuredImages[i] ?? featuredImages[0]}
-                          alt={project.title}
+                          src={project.image ?? "/western kenya facilitation.jpeg"}
+                          alt={project.imageAlt ?? project.title}
                           fill
                           className="object-cover"
                           sizes="(max-width: 1024px) 100vw, 25vw"
@@ -172,8 +165,6 @@ export default function ProjectsPage() {
               </AnimateInItem>
             ))}
           </AnimateInGroup>
-            );
-          })()}
         </Container>
       </section>
 
@@ -232,6 +223,73 @@ export default function ProjectsPage() {
           </Container>
         </section>
       )}
+
+      {/* Field Gallery */}
+      <section className="section-pad bg-[var(--color-cream)]">
+        <Container>
+          <AnimateIn className="mb-12">
+            <SectionLabel number="—" label="In the Field" />
+            <h2 className="font-serif text-2xl lg:text-3xl text-[var(--color-forest)] mt-3">
+              Field work across Kenya
+            </h2>
+          </AnimateIn>
+
+          <AnimateInGroup className="grid grid-cols-1 lg:grid-cols-2 gap-8" stagger={0.08}>
+            {[
+              {
+                src: "/insect control.jpeg",
+                caption: "Nyeri County: Integrated Pest Management — The farmer places molasses or alcohol in a small bottle as a fermented attractant. Pest insects are drawn to the scent, enter the bottle, and fall into the larger water-filled container where they drown. A chemical-free, low-cost method widely adopted by smallholder farmers in Central Kenya.",
+              },
+              {
+                src: "/organic fertilizer.jpeg",
+                caption: "Nyeri: organic fertilizer and pesticide.",
+              },
+              {
+                src: "/vermiculture.jpeg",
+                caption: "Kathangaririri, Tharaka Nithi County — vermiculture unit producing organic manure.",
+              },
+              {
+                src: "/interscropping.jpeg",
+                caption: "Embu County: Intercropping coffee and vegetables.",
+              },
+              {
+                src: "/Njoro greenhouse.jpeg",
+                caption: "Inside a greenhouse in Njoro Subcounty, Nakuru County, Livelihood Lab Africa works with smallholder farmers to strengthen practical skills in cucumber farming. This training focused on trellising, pruning, pest and disease monitoring, irrigation, crop nutrition, and harvesting practices that help farmers improve cucumber yields, reduce losses, and build more resilient livelihoods.",
+              },
+              {
+                src: "/Nandi county.jpeg",
+                caption: "In Nandi County, Livelihood Lab Africa empowers women farmers through hands-on coffee production training that builds their technical skills, confidence, and participation in the coffee value chain. Using practical field demonstrations, women learn improved coffee husbandry, crop care, pest and disease management, soil fertility practices, and good agricultural practices that enhance productivity, improve coffee quality, and strengthen household incomes. By equipping women with practical knowledge and decision-making skills, the training supports their role as key actors in sustainable agriculture and community livelihood transformation.",
+              },
+              {
+                src: "/Women empowerment.jpeg",
+                caption: "Through hands-on field demonstrations, Livelihood Lab Africa is empowering women farmers with practical skills in soil sampling, soil fertility management, and sustainable land use. By strengthening women's access to agricultural knowledge, the training supports improved productivity, better decision-making, and more resilient livelihoods. Farmers are then trained on practical soil management practices such as compost use, balanced fertilizer application, cover cropping, crop rotation, mulching, and good agronomic practices suited to their local farming conditions.",
+              },
+              {
+                src: "/western kenya facilitation.jpeg",
+                caption: "Livelihood Lab Africa facilitators train smallholder farmers in Western Kenya on soil health, climate-smart agriculture, and sustainable crop management through practical field-based demonstrations.",
+              },
+            ].map(({ src, caption }) => (
+              <AnimateInItem key={src}>
+                <div className="flex flex-col gap-4">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[var(--color-mist)]">
+                    <Image
+                      src={src}
+                      alt={caption}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-[var(--color-forest)] opacity-10" />
+                  </div>
+                  <p className="text-sm text-[var(--color-smoke)] leading-relaxed">
+                    {caption}
+                  </p>
+                </div>
+              </AnimateInItem>
+            ))}
+          </AnimateInGroup>
+        </Container>
+      </section>
 
       {/* Approach note */}
       <section className="section-pad-sm bg-[var(--color-mist)]">

@@ -9,7 +9,7 @@ export default function LeadershipPreview() {
   return (
     <section className="section-pad bg-[var(--color-cream)] overflow-hidden">
       <Container>
-        {/* Header + image side by side */}
+        {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-14 items-end">
           <div className="lg:col-span-7">
             <AnimateIn>
@@ -41,10 +41,10 @@ export default function LeadershipPreview() {
         <AnimateIn delay={0.1} className="mb-12">
           <div className="relative w-full aspect-[21/7] overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?auto=format&fit=crop&w=1600&q=80"
-              alt="Team of development professionals in Nairobi"
+              src="/Nandi county.jpeg"
+              alt="Livelihood Lab Africa team working with farmers in Nandi County"
               fill
-              className="object-cover object-top"
+              className="object-cover object-center"
               sizes="100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-forest)] via-transparent to-transparent opacity-40" />
@@ -67,13 +67,21 @@ export default function LeadershipPreview() {
                     : ""
                 } ${i > 0 ? "lg:pl-8" : ""}`}
               >
-                {/* Avatar — richly styled with initials */}
-                <div className="w-14 h-14 bg-[var(--color-forest)] flex items-center justify-center mb-5">
-                  <span className="font-serif text-lg text-[var(--color-cream)]">
-                    {member.initials}
-                  </span>
+                <div className="relative w-14 h-14 bg-[var(--color-forest)] flex items-center justify-center mb-5 overflow-hidden">
+                  {member.photo ? (
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-top"
+                      sizes="56px"
+                    />
+                  ) : (
+                    <span className="font-serif text-lg text-[var(--color-cream)]">
+                      {member.initials}
+                    </span>
+                  )}
                 </div>
-
                 <h3 className="font-serif text-base text-[var(--color-forest)] mb-0.5">
                   {member.name}
                 </h3>

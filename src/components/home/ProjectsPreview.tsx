@@ -8,12 +8,6 @@ import { projects } from "@/lib/data/projects";
 
 const featured = projects.filter((p) => p.featured).slice(0, 3);
 
-// Curated field images for each featured project
-const projectImages = [
-  "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
-];
 
 export default function ProjectsPreview() {
   return (
@@ -54,8 +48,8 @@ export default function ProjectsPreview() {
                 {/* Image */}
                 <div className="relative aspect-[16/9] overflow-hidden bg-[var(--color-mist)]">
                   <Image
-                    src={projectImages[i]}
-                    alt={project.title}
+                    src={project.image ?? "/western kenya facilitation.jpeg"}
+                    alt={project.imageAlt ?? project.title}
                     fill
                     className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                     sizes="(max-width: 1024px) 100vw, 33vw"

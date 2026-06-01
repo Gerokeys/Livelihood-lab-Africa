@@ -21,8 +21,8 @@ export default function AboutPage() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1560179304-6fc1d8749b23?auto=format&fit=crop&w=1920&q=80"
-            alt="Nairobi city skyline"
+            src="/Women empowerment.jpeg"
+            alt="Livelihood Lab Africa empowering women farmers in the field"
             fill
             className="object-cover object-center"
             priority
@@ -318,10 +318,20 @@ export default function AboutPage() {
                 >
                   <div className="flex items-start gap-6">
                     {/* Avatar */}
-                    <div className="w-14 h-14 bg-[var(--color-mist)] flex items-center justify-center border border-[var(--color-mist-dark)] shrink-0">
-                      <span className="font-serif text-lg text-[var(--color-earth)]">
-                        {member.initials}
-                      </span>
+                    <div className="w-14 h-14 bg-[var(--color-mist)] border border-[var(--color-mist-dark)] shrink-0 overflow-hidden relative">
+                      {member.photo ? (
+                        <Image
+                          src={member.photo}
+                          alt={member.name}
+                          fill
+                          className="object-cover object-top"
+                          sizes="56px"
+                        />
+                      ) : (
+                        <span className="font-serif text-lg text-[var(--color-earth)] flex items-center justify-center w-full h-full">
+                          {member.initials}
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex-1">
@@ -375,9 +385,9 @@ export default function AboutPage() {
           <AnimateIn delay={0.15}>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { src: "https://images.unsplash.com/photo-1547036965-7aff7e3aefbb?auto=format&fit=crop&w=600&q=80", label: "Rural Kenya" },
-                { src: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=600&q=80", label: "Nairobi" },
-                { src: "https://images.unsplash.com/photo-1589156229687-496a31ad1a1a?auto=format&fit=crop&w=600&q=80", label: "East Africa" },
+                { src: "/interscropping.jpeg", label: "Embu County" },
+                { src: "/mulch.jpeg", label: "Field Practices" },
+                { src: "/alliance.jpeg", label: "Partnership Work" },
               ].map(({ src, label }) => (
                 <div key={label} className="relative aspect-[4/3] overflow-hidden">
                   <Image
