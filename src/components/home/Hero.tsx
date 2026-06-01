@@ -7,7 +7,7 @@ import Container from "@/components/ui/Container";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[88vh] flex flex-col overflow-hidden">
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -40,7 +40,7 @@ export default function Hero() {
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-forest-deep))" }}
       />
 
-      <Container className="flex-1 flex flex-col items-center justify-center pt-24 pb-20 relative z-20 text-center">
+      <Container className="flex-1 flex flex-col items-center justify-center pt-16 pb-16 lg:pt-24 lg:pb-20 relative z-20 text-center">
         {/* Main headline */}
         <div className="max-w-5xl mx-auto">
           <motion.h1
