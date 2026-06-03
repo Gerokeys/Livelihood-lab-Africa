@@ -235,9 +235,6 @@ export default function ContactPage() {
                         <p className="text-sm text-[var(--color-ink)]">
                           PVT-6Y1Y65Y6
                         </p>
-                        <p className="text-sm text-[var(--color-ink)]">
-                          KRA PIN: P052468475W
-                        </p>
                       </div>
                     </div>
                   </div>

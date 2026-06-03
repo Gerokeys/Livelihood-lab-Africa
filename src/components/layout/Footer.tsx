@@ -102,7 +102,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-6">
             <p className="text-xs text-[var(--color-sage)]">
-              Reg: PVT-6Y1Y65Y6 &nbsp;·&nbsp; KRA PIN: P052468475W
+              Reg: PVT-6Y1Y65Y6
             </p>
           </div>
         </div>

@@ -51,7 +51,7 @@ export default function Preloader() {
               width={200}
               height={65}
               priority
-              className="w-36 lg:w-44 h-auto brightness-0 invert"
+              className="w-52 lg:w-64 h-auto"
             />
           </motion.div>
 

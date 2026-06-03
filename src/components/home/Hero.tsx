@@ -11,15 +11,15 @@ export default function Hero() {
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1920&q=80"
-          alt="East Africa landscape"
+          src="/Nandi county.jpeg"
+          alt="Livelihood Lab Africa working with women farmers in Nandi County"
           fill
           className="object-cover object-center"
           priority
           sizes="100vw"
         />
         {/* Layered overlay: dark forest green tint */}
-        <div className="absolute inset-0 bg-[var(--color-forest)] opacity-85" />
+        <div className="absolute inset-0 bg-[var(--color-forest)] opacity-70" />
         {/* Subtle grain/texture */}
         <div
           className="absolute inset-0 opacity-[0.04]"
