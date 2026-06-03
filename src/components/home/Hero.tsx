@@ -19,7 +19,7 @@ export default function Hero() {
           sizes="100vw"
         />
         {/* Layered overlay: dark forest green tint */}
-        <div className="absolute inset-0 bg-[var(--color-forest)] opacity-70" />
+        <div className="absolute inset-0 bg-[var(--color-forest)] opacity-55" />
         {/* Subtle grain/texture */}
         <div
           className="absolute inset-0 opacity-[0.04]"

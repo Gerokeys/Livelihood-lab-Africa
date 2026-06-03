@@ -40,17 +40,14 @@ export default function Navigation() {
     };
   }, [menuOpen]);
 
-  const isHome = pathname === "/";
-  const isTransparent = isHome && !scrolled && !menuOpen;
-
   return (
     <>
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          isTransparent
-            ? "bg-transparent"
-            : "bg-[var(--color-cream)] border-b border-[var(--color-whisper)]"
+          scrolled || menuOpen
+            ? "bg-[var(--color-cream)] border-b border-[var(--color-whisper)] shadow-sm"
+            : "bg-white/80 backdrop-blur-md border-b border-white/20"
         )}
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -79,12 +76,8 @@ export default function Navigation() {
                     className={cn(
                       "relative text-sm tracking-wide transition-colors duration-200",
                       isActive
-                        ? isTransparent
-                          ? "text-[var(--color-cream)]"
-                          : "text-[var(--color-amber)]"
-                        : isTransparent
-                        ? "text-[var(--color-mist)] hover:text-[var(--color-cream)]"
-                        : "text-[var(--color-smoke)] hover:text-[var(--color-charcoal)]"
+                        ? "text-[var(--color-amber)]"
+                        : "text-[var(--color-smoke)] hover:text-[var(--color-forest)]"
                     )}
                   >
                     {label}
@@ -102,12 +95,7 @@ export default function Navigation() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className={cn(
-                "lg:hidden flex flex-col gap-1.5 p-2 transition-colors",
-                isTransparent
-                  ? "text-[var(--color-cream)]"
-                  : "text-[var(--color-charcoal)]"
-              )}
+              className="lg:hidden flex flex-col gap-1.5 p-2 text-[var(--color-forest)] transition-colors"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
               <span
