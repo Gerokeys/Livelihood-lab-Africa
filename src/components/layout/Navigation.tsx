@@ -51,7 +51,7 @@ export default function Navigation() {
         )}
       >
         <div className="mx-auto max-w-5xl px-5 lg:px-10">
-          <div className="flex items-center justify-between h-12 lg:h-14">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="group flex items-center">
               <Image
@@ -59,7 +59,7 @@ export default function Navigation() {
                 alt="Livelihood Lab Africa"
                 width={160}
                 height={52}
-                className="h-9 lg:h-10 w-auto object-contain"
+                className="h-11 lg:h-14 w-auto object-contain"
                 priority
               />
             </Link>
