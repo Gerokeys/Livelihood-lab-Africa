@@ -40,52 +40,55 @@ export default function Hero() {
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-forest-deep))" }}
       />
 
-      <Container className="flex-1 flex flex-col items-center justify-center pt-36 pb-8 lg:pt-52 lg:pb-12 relative z-20 text-center">
-        {/* Main headline */}
-        <div className="max-w-5xl mx-auto">
-          <motion.h1
-            className="text-display font-serif text-[var(--color-cream)] mb-8"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Turning Evidence
-            <br />
-            <span className="italic text-[var(--color-mist)]">Into Sustainable</span>
-            <br />
-            Livelihood Impact
-          </motion.h1>
-
-          <motion.p
-            className="text-lead text-[var(--color-sage-light)] max-w-xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Research, strategy, learning, and institutional support for
-            sustainable development across Africa.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-6 mt-6 lg:mt-0"
-          >
-            <Link
-              href="/research"
-              className="text-sm text-[var(--color-mist)] border-b border-[var(--color-amber)] pb-0.5 hover:text-[var(--color-amber)] transition-colors duration-200"
+      <Container className="flex-1 flex flex-col relative z-20 text-center">
+        {/* Headline + subtitle — centred in the upper space */}
+        <div className="flex-1 flex flex-col items-center justify-center pt-16 lg:pt-20 pb-6">
+          <div className="max-w-5xl mx-auto">
+            <motion.h1
+              className="text-display font-serif text-[var(--color-cream)] mb-8"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              Explore our research
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm text-[var(--color-sage-light)] hover:text-[var(--color-mist)] transition-colors duration-200"
+              Turning Evidence
+              <br />
+              <span className="italic text-[var(--color-mist)]">Into Sustainable</span>
+              <br />
+              Livelihood Impact
+            </motion.h1>
+
+            <motion.p
+              className="text-lead text-[var(--color-sage-light)] max-w-xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              About the firm →
-            </Link>
-          </motion.div>
+              Research, strategy, learning, and institutional support for
+              sustainable development across Africa.
+            </motion.p>
+          </div>
         </div>
+
+        {/* CTAs — pinned to the bottom, always visible at 100vh */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-wrap items-center justify-center gap-6 pb-12 lg:pb-16"
+        >
+          <Link
+            href="/research"
+            className="text-sm text-[var(--color-mist)] border-b border-[var(--color-amber)] pb-0.5 hover:text-[var(--color-amber)] transition-colors duration-200"
+          >
+            Explore our research
+          </Link>
+          <Link
+            href="/about"
+            className="text-sm text-[var(--color-sage-light)] hover:text-[var(--color-mist)] transition-colors duration-200"
+          >
+            About the firm →
+          </Link>
+        </motion.div>
       </Container>
 
       {/* Scroll indicator */}

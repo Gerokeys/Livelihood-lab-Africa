@@ -50,8 +50,8 @@ export default function Navigation() {
             : "bg-white/80 backdrop-blur-md border-b border-white/20"
         )}
       >
-        <div className="mx-auto max-w-7xl px-6 lg:px-12">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="mx-auto max-w-5xl px-5 lg:px-10">
+          <div className="flex items-center justify-between h-12 lg:h-14">
             {/* Logo */}
             <Link href="/" className="group flex items-center">
               <Image
@@ -59,7 +59,7 @@ export default function Navigation() {
                 alt="Livelihood Lab Africa"
                 width={160}
                 height={52}
-                className="h-14 w-auto object-contain"
+                className="h-9 lg:h-10 w-auto object-contain"
                 priority
               />
             </Link>
@@ -77,7 +77,7 @@ export default function Navigation() {
                       "relative text-sm tracking-wide transition-colors duration-200",
                       isActive
                         ? "text-[var(--color-amber)]"
-                        : "text-[var(--color-smoke)] hover:text-[var(--color-forest)]"
+                        : "text-[var(--color-forest)] hover:text-[var(--color-earth)]"
                     )}
                   >
                     {label}
