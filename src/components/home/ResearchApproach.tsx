@@ -56,8 +56,8 @@ export default function ResearchApproach() {
             <AnimateIn delay={0.2} className="flex-1">
               <div className="relative aspect-[4/3] lg:aspect-auto lg:h-64 overflow-hidden">
                 <Image
-                  src="/Nandi county.jpeg"
-                  alt="Livelihood Lab Africa working with women farmers in Nandi County on coffee production"
+                  src="/mulch.jpeg"
+                  alt="Soil management and mulching practices in the field"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"

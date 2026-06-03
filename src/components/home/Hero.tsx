@@ -11,8 +11,8 @@ export default function Hero() {
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/Nandi county.jpeg"
-          alt="Livelihood Lab Africa working with women farmers in Nandi County"
+          src="/interscropping.jpeg"
+          alt="Intercropping coffee and vegetables in Embu County, Kenya"
           fill
           className="object-cover object-center"
           priority

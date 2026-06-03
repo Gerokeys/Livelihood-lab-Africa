@@ -41,8 +41,8 @@ export default function LeadershipPreview() {
         <AnimateIn delay={0.1} className="mb-12">
           <div className="relative w-full aspect-[21/7] overflow-hidden">
             <Image
-              src="/Nandi county.jpeg"
-              alt="Livelihood Lab Africa team working with farmers in Nandi County"
+              src="/Women empowerment.jpeg"
+              alt="Livelihood Lab Africa empowering women farmers through field training"
               fill
               className="object-cover object-center"
               sizes="100vw"
