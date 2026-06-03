@@ -23,7 +23,6 @@ export const team: TeamMember[] = [
     expertise: [
       "Research Design",
       "MEAL Systems",
-      "Systematic Reviews",
       "Evidence Synthesis",
     ],
   },
@@ -50,6 +49,7 @@ export const team: TeamMember[] = [
       "Strategy & Advisory",
       "Business Development",
       "Institutional Learning",
+      "Systematic Reviews",
       "Policy Analysis",
     ],
   },
