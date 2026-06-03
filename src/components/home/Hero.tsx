@@ -40,7 +40,7 @@ export default function Hero() {
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-forest-deep))" }}
       />
 
-      <Container className="flex-1 flex flex-col items-center justify-center pt-16 pb-16 lg:pt-24 lg:pb-20 relative z-20 text-center">
+      <Container className="flex-1 flex flex-col items-center justify-center pt-36 pb-8 lg:pt-52 lg:pb-12 relative z-20 text-center">
         {/* Main headline */}
         <div className="max-w-5xl mx-auto">
           <motion.h1
