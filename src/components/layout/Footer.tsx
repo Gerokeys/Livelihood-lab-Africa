@@ -62,6 +62,12 @@ export default function Footer() {
               >
                 llabafrica009@gmail.com
               </a>
+              <a
+                href="tel:+254725000931"
+                className="block text-sm text-[var(--color-mist-dark)] hover:text-[var(--color-amber)] transition-colors duration-200"
+              >
+                +254 725 000 931
+              </a>
               <p className="text-sm text-[var(--color-sage-light)]">
                 P.O. Box 21461-00505
                 <br />
@@ -101,9 +107,14 @@ export default function Footer() {
             reserved.
           </p>
           <div className="flex items-center gap-6">
-            <p className="text-xs text-[var(--color-sage)]">
-              Built by Scratchdesign
-            </p>
+            <a
+              href="https://scratchdesign.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[var(--color-sage)] hover:text-[var(--color-amber)] transition-colors duration-200"
+            >
+              Crafted by Scratchdesign →
+            </a>
           </div>
         </div>
       </div>

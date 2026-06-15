@@ -1,8 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import Container from "@/components/ui/Container";
-import AnimateIn, { AnimateInGroup, AnimateInItem } from "@/components/ui/AnimateIn";
+import AnimateIn from "@/components/ui/AnimateIn";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const inquiryTypes = [
@@ -12,32 +9,14 @@ const inquiryTypes = [
   "Capacity Development",
   "Systematic Review",
   "Partnership Enquiry",
-  "General Enquiry",
 ];
 
+const mailtoHref =
+  "mailto:llabafrica009@gmail.com" +
+  "?subject=Enquiry%20%E2%80%94%20[Your%20topic]" +
+  "&body=Hi%20Livelihood%20Lab%20Africa%20Team%2C%0A%0AName%3A%20%0AOrganisation%3A%20%0AEnquiry%20type%3A%20%0A%0AMessage%3A%20";
+
 export default function ContactPage() {
-  const [formState, setFormState] = useState({
-    name: "",
-    organisation: "",
-    email: "",
-    inquiryType: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
     <>
       {/* Header */}
@@ -62,145 +41,56 @@ export default function ContactPage() {
       <section id="inquiries" className="section-pad bg-[var(--color-cream)]">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-            {/* Form */}
+            {/* Left: Direct contact CTA */}
             <div className="lg:col-span-7">
               <AnimateIn>
                 <SectionLabel number="—" label="Send an Enquiry" />
+                <h2 className="text-headline font-serif text-[var(--color-forest)] mb-6">
+                  Reach us directly
+                </h2>
+                <p className="text-sm text-[var(--color-smoke)] leading-relaxed mb-10 max-w-md">
+                  Send us an email and we&apos;ll be in touch within two business days.
+                  To help us respond quickly, let us know your name, organisation,
+                  the nature of your enquiry, and a brief description of what
+                  you have in mind.
+                </p>
               </AnimateIn>
 
-              {submitted ? (
-                <AnimateIn delay={0.05}>
-                  <div className="py-12 border border-[var(--color-mist-dark)] bg-[var(--color-mist)] px-8">
-                    <div className="w-8 h-px bg-[var(--color-amber)] mb-6" />
-                    <h2 className="font-serif text-2xl text-[var(--color-forest)] mb-3">
-                      Thank you for your enquiry
-                    </h2>
-                    <p className="text-sm text-[var(--color-smoke)] leading-relaxed">
-                      We have received your message and a member of our team
-                      will be in touch within two business days. We look forward
-                      to speaking with you.
-                    </p>
+              <AnimateIn delay={0.1}>
+                <a
+                  href={mailtoHref}
+                  className="inline-flex items-center gap-3 bg-[var(--color-forest)] text-[var(--color-cream)] text-sm font-medium px-8 py-4 hover:bg-[var(--color-earth)] transition-colors duration-300 mb-12"
+                >
+                  Compose email →
+                </a>
+              </AnimateIn>
+
+              <AnimateIn delay={0.15}>
+                <div className="border-t border-[var(--color-whisper)] pt-10">
+                  <p className="text-[10px] tracking-[0.12em] uppercase text-[var(--color-stone)] mb-6">
+                    What to include
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {[
+                      { label: "Your name & organisation", hint: "So we know who we are speaking with" },
+                      { label: "Nature of enquiry", hint: "See our service areas on the right" },
+                      { label: "Scope or context", hint: "Brief overview of the assignment or need" },
+                      { label: "Expected timeline", hint: "When do you need support to begin?" },
+                    ].map(({ label, hint }) => (
+                      <div key={label} className="flex gap-3">
+                        <span className="mt-1.5 w-1 h-1 rounded-full bg-[var(--color-amber)] shrink-0" />
+                        <div>
+                          <p className="text-sm text-[var(--color-ink)] font-medium">{label}</p>
+                          <p className="text-xs text-[var(--color-stone)] mt-0.5">{hint}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </AnimateIn>
-              ) : (
-                <AnimateIn delay={0.05}>
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-[10px] tracking-[0.1em] uppercase text-[var(--color-stone)] mb-2"
-                        >
-                          Full name *
-                        </label>
-                        <input
-                          id="name"
-                          name="name"
-                          type="text"
-                          required
-                          value={formState.name}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 text-sm border border-[var(--color-whisper)] bg-[var(--color-ghost)] text-[var(--color-charcoal)] placeholder:text-[var(--color-stone)] focus:outline-none focus:border-[var(--color-sage)] transition-colors"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="organisation"
-                          className="block text-[10px] tracking-[0.1em] uppercase text-[var(--color-stone)] mb-2"
-                        >
-                          Organisation
-                        </label>
-                        <input
-                          id="organisation"
-                          name="organisation"
-                          type="text"
-                          value={formState.organisation}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 text-sm border border-[var(--color-whisper)] bg-[var(--color-ghost)] text-[var(--color-charcoal)] placeholder:text-[var(--color-stone)] focus:outline-none focus:border-[var(--color-sage)] transition-colors"
-                          placeholder="Your organisation"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-[10px] tracking-[0.1em] uppercase text-[var(--color-stone)] mb-2"
-                      >
-                        Email address *
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        value={formState.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 text-sm border border-[var(--color-whisper)] bg-[var(--color-ghost)] text-[var(--color-charcoal)] placeholder:text-[var(--color-stone)] focus:outline-none focus:border-[var(--color-sage)] transition-colors"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="inquiryType"
-                        className="block text-[10px] tracking-[0.1em] uppercase text-[var(--color-stone)] mb-2"
-                      >
-                        Nature of enquiry
-                      </label>
-                      <select
-                        id="inquiryType"
-                        name="inquiryType"
-                        value={formState.inquiryType}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 text-sm border border-[var(--color-whisper)] bg-[var(--color-ghost)] text-[var(--color-charcoal)] focus:outline-none focus:border-[var(--color-sage)] transition-colors appearance-none"
-                      >
-                        <option value="">Select enquiry type</option>
-                        {inquiryTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="message"
-                        className="block text-[10px] tracking-[0.1em] uppercase text-[var(--color-stone)] mb-2"
-                      >
-                        Message *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={6}
-                        value={formState.message}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 text-sm border border-[var(--color-whisper)] bg-[var(--color-ghost)] text-[var(--color-charcoal)] placeholder:text-[var(--color-stone)] focus:outline-none focus:border-[var(--color-sage)] transition-colors resize-none"
-                        placeholder="Please describe your enquiry, the scope of work you have in mind, and your expected timeline..."
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 pt-2">
-                      <p className="text-xs text-[var(--color-stone)]">
-                        We will respond within two business days.
-                      </p>
-                      <button
-                        type="submit"
-                        className="text-sm font-medium text-[var(--color-cream)] bg-[var(--color-forest)] px-8 py-3.5 hover:bg-[var(--color-earth)] transition-colors duration-300 shrink-0"
-                      >
-                        Send message
-                      </button>
-                    </div>
-                  </form>
-                </AnimateIn>
-              )}
+                </div>
+              </AnimateIn>
             </div>
 
-            {/* Contact info */}
+            {/* Right: Contact info */}
             <div className="lg:col-span-5">
               <AnimateIn delay={0.15} direction="left">
                 <div className="sticky top-24 space-y-8">
@@ -220,20 +110,23 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-[10px] tracking-[0.12em] uppercase text-[var(--color-stone)] mb-1.5">
+                          Phone
+                        </p>
+                        <a
+                          href="tel:+254725000931"
+                          className="text-sm text-[var(--color-ink)] hover:text-[var(--color-amber)] transition-colors link-reveal"
+                        >
+                          +254 725 000 931
+                        </a>
+                      </div>
+                      <div>
+                        <p className="text-[10px] tracking-[0.12em] uppercase text-[var(--color-stone)] mb-1.5">
                           Postal Address
                         </p>
                         <p className="text-sm text-[var(--color-ink)] leading-relaxed">
                           P.O. Box 21461-00505
                           <br />
                           Nairobi, Kenya
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] tracking-[0.12em] uppercase text-[var(--color-stone)] mb-1.5">
-                          Registration
-                        </p>
-                        <p className="text-sm text-[var(--color-ink)]">
-                          PVT-6Y1Y65Y6
                         </p>
                       </div>
                     </div>
@@ -244,7 +137,7 @@ export default function ContactPage() {
                       Areas of engagement
                     </p>
                     <div className="flex flex-col gap-2">
-                      {inquiryTypes.slice(0, -1).map((type) => (
+                      {inquiryTypes.map((type) => (
                         <div
                           key={type}
                           className="flex items-center gap-3 text-sm text-[var(--color-smoke)]"
